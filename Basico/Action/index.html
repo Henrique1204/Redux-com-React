@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Scripts -->
+    <script src="../redux.js"></script>
+    <title>Redux</title>
+</head>
+<body>
+    <div>
+        <button id="btn">Incrementar</button>
+    </div>
+
+    <script>
+        // Por questão de organização e boa prática, os "tipos" das action são definidos como constante.
+        const INCREMENTAR = "INCREMENTAR";
+        const SOMAR = "SOMAR";
+
+        // Outra boa prática é utilizar funções para criar as action.
+        function incrementar() {
+            return { type: INCREMENTAR };
+        }
+    
+        function somar(payload) {
+            return { type: SOMAR, payload };
+        }
+
+        const estadoinicial = 10;
+
+        function reducer (state = estadoinicial, action) {
+            if (action.type === INCREMENTAR ) {
+                return state + 1;
+            }
+
+            if (action.type === SOMAR) {
+                return state + action.payload;
+            }
+
+            return state;
+        }
+
+        const store = Redux.createStore(reducer);
+        let state = store.getState();
+        console.log(state);
+
+        // Exemplo de uma ação do reducer;
+        store.dispatch(somar(20));
+        // Payload é um parâmetro opcional.
+        store.dispatch(incrementar());
+        // Após utlilizar uma ação que mude o valor do estado, é preciso pegar ele de novo.
+        state = store.getState();
+        console.log(state);
+
+        const btn = document.getElementById("btn");
+
+        btn.addEventListener("click", () => {
+            store.dispatch(incrementar());
+            state = store.getState();
+            console.log(state);
+        });
+    </script>
+</body>
+</html>

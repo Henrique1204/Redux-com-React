@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Scripts -->
+    <script src="../redux.js"></script>
+    <title>Redux</title>
+</head>
+<body>
+    <script>
+        const estadoinicial = {
+            nome: "Paulo",
+            id: 1
+        }
+
+        // Reducer precisa receber dois parâmetros, o primeiro é o estado inicial.
+        // O segundo é uma action.
+        function reducer (state = estadoinicial, action) {
+            return state;
+        }
+
+        // Serve para permitir o acesso ao estado global criado pelo Redux.
+        // O primeiro argumento da função de createStore é uma função, por convenção, chamada de reducer.
+        // O reducer é quem retorno os estados atuais da aplicação.
+        const store = Redux.createStore(reducer);
+
+        // Função que retorna os estados.
+        const states = store.getState();
+        console.log(store);
+    </script>
+</body>
+</html>

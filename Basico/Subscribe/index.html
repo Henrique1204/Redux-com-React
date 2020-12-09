@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Scripts -->
+    <script src="../redux.js"></script>
+    <title>Redux</title>
+</head>
+<body>
+    <div>
+        <h1>Total: <span id="total"></span></h1>
+        <button id="btn">Incrementar</button>
+    </div>
+
+    <script>
+        const INCREMENTAR = "INCREMENTAR";
+        const SOMAR = "SOMAR";
+
+        function incrementar() {
+            return { type: INCREMENTAR };
+        }
+
+        const estadoinicial = 10;
+
+        function reducer (state = estadoinicial, action) {
+            if (action.type === INCREMENTAR ) {
+                return state + 1;
+            }
+
+            return state;
+        }
+
+        const store = Redux.createStore(reducer);
+        let state = store.getState();
+    
+        function render() {
+            const total = document.getElementById("total");
+            state = store.getState();
+            total.innerText = state;
+        }
+
+        render();
+
+        // Irá acontecer toda vez que o "dispatch" ocorrer.
+        // Você pode ter mais de um subscribe no arquivo.
+        // O retorno da função é um método que cancela o "subscribe".
+        const unsubscribe = store.subscribe(render);
+
+        document.getElementById("btn").addEventListener("click", () => store.dispatch(incrementar()) );
+    </script>
+</body>
+</html>

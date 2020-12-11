@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Scripts -->
+    <script src="../redux.js"></script>
+    <title>Redux</title>
+</head>
+<body>
+    <div>
+        <h1>Total: <span id="total"></span></h1>
+        <button id="btn">Incrementar</button>
+        <button id="mostrar">mostrar</button>
+        <button id="esconder">esconder</button>
+    </div>
+
+    <script>
+        // Valores.
+        const INCREMENTAR = "INCREMENTAR";
+        const SOMAR = "SOMAR";
+        const MOSTRAR = "MOSTRAR";
+        const ESCONDER = "ESCONDER";
+
+        // Action creator.
+        function incrementar() {
+            return { type: INCREMENTAR };
+        }
+
+        function somar(payload) {
+            return { type: SOMAR, payload };
+        }
+
+        function mostrar() {
+            return { type: MOSTRAR };
+        }
+
+        function esconder() {
+            return { type: ESCONDER };
+        }
+
+        const estadoinicial = 0;
+
+        function atualizarValor (state = estadoinicial, action) {
+            switch (action.type) {
+                case INCREMENTAR: return state + 1;
+                case SOMAR: return state + action.payload;
+                default: return state;
+            }
+        }
+
+        function mostrarValor (state = true, action) {
+            switch (action.type) {
+                case MOSTRAR: return true;
+                case ESCONDER: return false;
+                default: return state;
+            }
+        }
+
+        const reducer = Redux.combineReducers({ atualizarValor, mostrarValor });
+        const store = Redux.createStore(reducer);
+    
+        function render() {
+            let { atualizarValor, mostrarValor } = store.getState();
+            const total = document.getElementById("total");
+            total.innerText = atualizarValor;
+
+            if (mostrarValor) {
+                total.style.display = "inline-block";
+            } else {
+                total.style.display = "none";
+            }
+        }
+
+        render();
+
+        store.subscribe(render);
+
+        document.getElementById("btn").addEventListener("click", () => store.dispatch(incrementar()) );
+        document.getElementById("mostrar").addEventListener("click", () => store.dispatch(mostrar()) );
+        document.getElementById("esconder").addEventListener("click", () => store.dispatch(esconder()) );
+    </script>
+</body>
+</html>

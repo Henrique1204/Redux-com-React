@@ -11,9 +11,13 @@ const slice = createSlice({
         },
         reduzir(state) {
             state.total--;
+        },
+        somar: {
+            reducer: (state, action) => state + action.payload,
+            prepare: (payload) => ({ payload, meta: "local" })
         }
     }
 });
 
-export const { incrementar, reduzir } = slice.actions;
+export const { incrementar, reduzir, somar } = slice.actions;
 export default slice.reducer;

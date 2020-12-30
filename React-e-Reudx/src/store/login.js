@@ -96,8 +96,8 @@ export const login = (user) => async (dispatch) => {
     try {
         const { payload } = await dispatch(fetchToken(user));
 
-        if (payload.token) {
-            dispatch(fetchUser(payload));
+        if (payload.token !== undefined) {
+            dispatch(fetchUser(payload.token));
         }
     } catch (erro) {
 

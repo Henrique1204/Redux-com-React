@@ -1,10 +1,12 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { login } from "./store/login";
+
+// Encademaneto opcional: dados?.token
+// Caso o valor de "token" não seja encontrado, ele retorna "dados".
 
 const App = () =>  {
   // Estados Globais.
-  const dados = useSelector((state) => state.login);
   const dispatch = useDispatch();
 
   // Estados locais.
@@ -26,12 +28,6 @@ const App = () =>  {
       <input id="password" type="password" value={password} onChange={({ target }) => setPassword(target.value)} />
 
       <button style={{ display: "block" }} >Enviar</button>
-      <small>
-        {
-          // Encadeamento opcional, caso ele não encontre o valor "token" dentro de "dados", ele retornará o próprio "dados".
-          dados?.token?.dados?.token
-        }
-      </small>
     </form>
   );
 }

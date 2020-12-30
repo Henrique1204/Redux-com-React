@@ -1,22 +1,38 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { incrementar, reduzir } from "./store/contador.js";
-import { abrir, fechar } from "./store/modal.js";
+import { login } from "./store/login";
 
 const App = () =>  {
-  const { contador } = useSelector((state) => state);
+  // Estados Globais.
+  const dados = useSelector((state) => state.login);
   const dispatch = useDispatch();
 
-  return (
-    <div>
-      <h1>Total: {contador.total}</h1>
-      <button onClick={() => dispatch(incrementar())} >Incrementar</button>
-      <button onClick={() => dispatch(reduzir())} >Reduzir</button>
-  
+  // Estados locais.
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
 
-      <button onClick={() => dispatch(abrir())} >Abrir</button>
-      <button onClick={() => dispatch(fechar())} >Fechar</button>
-    </div>
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    dispatch(login({ username, password }));
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label style={{ display: "block" }} htmlFor="username">Usuário</label>
+      <input id="username" type="text" value={username} onChange={({ target }) => setUsername(target.value)} />
+
+      <label style={{ display: "block" }} htmlFor="password">Senha</label>
+      <input id="password" type="password" value={password} onChange={({ target }) => setPassword(target.value)} />
+
+      <button style={{ display: "block" }} >Enviar</button>
+      <small>
+        {
+          // Encadeamento opcional, caso ele não encontre o valor "token" dentro de "dados", ele retornará o próprio "dados".
+          dados?.token?.dados?.token
+        }
+      </small>
+    </form>
   );
 }
 

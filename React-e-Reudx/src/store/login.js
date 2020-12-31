@@ -1,6 +1,7 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import createAsyncSlice from "../util/createAsyncSlice.js";
 import getLocalStorage from "../util/getLocalStorage.js";
+import { removePhotos } from "./fotos.js";
 
 const token = createAsyncSlice({
     name: "token",
@@ -26,6 +27,9 @@ const token = createAsyncSlice({
                     }
                 }
             }
+        },
+        removeToken(state) {
+            state.dados = null;
         }
     },
     fetchConfig: (user) => ({ 
@@ -42,6 +46,11 @@ const token = createAsyncSlice({
 
 const user = createAsyncSlice({
     name: "user",
+    reducers: {
+        removeUser(state) {
+            state.dados = null;
+        }
+    },
     fetchConfig: (token) => ({ 
         url: 'https://dogsapi.origamid.dev/json/api/user',
         options: {
@@ -55,6 +64,9 @@ const user = createAsyncSlice({
 
 const fetchToken = token.asyncActions;
 const fetchUser = user.asyncActions;
+
+const { removeToken } = token.actions;
+const { removeUser } = user.actions;
 
 export const login = (user) => async (dispatch) => {
     try {
@@ -73,6 +85,13 @@ export const autoLogin = () => async (dispatch, getState) => {
     const { token } = state.login.token.dados;
 
     if (token) await dispatch(fetchUser(token));
+}
+
+export const userLogout = () => (dispatch) => {
+    window.localStorage.removeItem("token");
+    dispatch(removeToken());
+    dispatch(removeUser());
+    dispatch(removePhotos());
 }
 
 const reducer = combineReducers({ token: token.reducer, user: user.reducer });

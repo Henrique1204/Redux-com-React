@@ -1,0 +1,33 @@
+.header {
+    margin-bottom: 2rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.5rem ;
+    align-items: center;
+}
+
+.titulo {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.login {
+    width: 8px;
+    height: 8px;
+    padding: 0px;
+    border: 2px solid;
+    border-radius: 50%;
+    box-sizing: border-box;
+    margin: 0px;
+    background-color: #FFF;
+    display: block;
+    cursor: pointer;
+}
+
+.login.loading {
+    background-color: #F60;
+}
+
+.login.logado {
+    background-color: #282;
+}

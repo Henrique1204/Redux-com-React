@@ -1,43 +1,23 @@
 import React from "react";
+import "./App.css";
 import { useDispatch } from "react-redux";
-import { somar } from "./store/contador";
-import { autoLogin, login } from "./store/login";
-
-// Encademaneto opcional: dados?.token
-// Caso o valor de "token" não seja encontrado, ele retorna "dados".
+import Conteudo from "./Componente/Conteudo.js";
+import Header from "./Componente/Header.js";
+import { autoLogin } from "./store/login.js";
 
 const App = () =>  {
   // Estados Globais.
   const dispatch = useDispatch();
 
-  // Estados locais.
-  const [username, setUsername] = React.useState("");
-  const [password, setPassword] = React.useState("");
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    dispatch(login({ username, password }));
-  };
-
   React.useEffect(() => {
     dispatch(autoLogin());
   }, [dispatch]);
-
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <label style={{ display: "block" }} htmlFor="username">Usuário</label>
-        <input id="username" type="text" value={username} onChange={({ target }) => setUsername(target.value)} />
+    <div className="container">
+      <Header />
 
-        <label style={{ display: "block" }} htmlFor="password">Senha</label>
-        <input id="password" type="password" value={password} onChange={({ target }) => setPassword(target.value)} />
-
-        <button style={{ display: "block" }} >Enviar</button>
-      </form>
-
-      <button onClick={() => dispatch(somar(5))} >somar</button>
-    </>
+      <Conteudo />
+    </div>
   );
 }
 

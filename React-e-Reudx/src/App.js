@@ -1,30 +1,16 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { adicionarDatas } from "./store/data";
+import Foto from "./Foto";
 
 const App = () =>  {
-  // Estados locais.
-  const [partida, setPartida] = React.useState("");
-  const [retorno, setRetorno] = React.useState("");
-
-  const dispatch = useDispatch();
-
-  function handleSubmit(event) {
-    event.preventDefault();
-
-    dispatch(adicionarDatas({ partida, retorno }));
-  }
+  const [toggle, setToggle] = React.useState(true);
 
   return (
-    <form onSubmit={handleSubmit} >
-      <label htmlFor="partida" style={{ display: "block" }} >Partida: {partida}</label>
-      <input type="date" id="partida" name="partida" value={partida} onChange={({ target }) => setPartida(target.value)} />
-
-      <label htmlFor="retorno" style={{ display: "block" }} >Retorno: {retorno}</label>
-      <input type="date" id="retorno" name="retorno" value={retorno} onChange={({ target }) => setRetorno(target.value)} />
-
-      <button>Buscar</button>
-    </form>
+    <div>
+      <button onClick={() => setToggle(!toggle)} >Clica</button>
+      {
+        toggle && <Foto />
+      }
+    </div>
   );
 }
 

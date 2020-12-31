@@ -1,23 +1,30 @@
 import React from "react";
-import "./App.css";
 import { useDispatch } from "react-redux";
-import Conteudo from "./Componente/Conteudo.js";
-import Header from "./Componente/Header.js";
-import { autoLogin } from "./store/login.js";
+import { adicionarDatas } from "./store/data";
 
 const App = () =>  {
-  // Estados Globais.
+  // Estados locais.
+  const [partida, setPartida] = React.useState("");
+  const [retorno, setRetorno] = React.useState("");
+
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    dispatch(autoLogin());
-  }, [dispatch]);
-  return (
-    <div className="container">
-      <Header />
+  function handleSubmit(event) {
+    event.preventDefault();
 
-      <Conteudo />
-    </div>
+    dispatch(adicionarDatas({ partida, retorno }));
+  }
+
+  return (
+    <form onSubmit={handleSubmit} >
+      <label htmlFor="partida" style={{ display: "block" }} >Partida: {partida}</label>
+      <input type="date" id="partida" name="partida" value={partida} onChange={({ target }) => setPartida(target.value)} />
+
+      <label htmlFor="retorno" style={{ display: "block" }} >Retorno: {retorno}</label>
+      <input type="date" id="retorno" name="retorno" value={retorno} onChange={({ target }) => setRetorno(target.value)} />
+
+      <button>Buscar</button>
+    </form>
   );
 }
 

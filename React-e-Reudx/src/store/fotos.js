@@ -12,4 +12,9 @@ const slice = createAsyncSlice({
 });
 
 export const fetchFotos = slice.asyncActions;
+
+export const filtrarCincoKilosMais = (state) => (
+    state.fotos.dados?.filter(({ peso }) => peso >= 5)
+);
+
 export default slice.reducer;
